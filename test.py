@@ -74,8 +74,14 @@ def start_service():
 
 if __name__ == '__main__':
     global logger
-    logger = prepare_log()
-    logger.info("Start:")
-    start_service()
-    logger.info("End:")
+    if len(sys.argv) > 1:
+        if sys.argv[1] == '-kill-service':
+            evt = win32event.CreateEvent(None, False, False, "test")
+            win32event.SetEvent(evt)
+            win32api.CloseHandle(evt)
+    else:
+        logger = prepare_log()
+        logger.info("Start:")
+        start_service()
+        logger.info("End:")
     sys.exit(0)
